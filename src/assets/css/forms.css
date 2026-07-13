@@ -1,0 +1,33 @@
+.dark-input{
+
+    background:#1E293B !important;
+
+    border:1px solid #334155 !important;
+
+    color:white !important;
+
+    border-radius:12px !important;
+}
+
+.dark-input:focus{
+
+    background:#1E293B !important;
+
+    color:white !important;
+
+    border-color:#6366F1 !important;
+
+    box-shadow:0 0 0 .2rem rgba(99,102,241,.25) !important;
+}
+
+.dark-input::placeholder{
+
+    color:#94A3B8;
+}
+
+.form-label{
+
+    color:#CBD5E1;
+
+    font-weight:500;
+}

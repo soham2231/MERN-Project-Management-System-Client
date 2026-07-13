@@ -1,0 +1,66 @@
+:root{
+  --bg:#0F172A;
+  --surface:#1E293B;
+  --surface2:#111827;
+
+  --text:#F8FAFC;
+  --text2:#94A3B8;
+
+  --primary:#6366F1;
+  --success:#22C55E;
+  --warning:#F59E0B;
+  --danger:#EF4444;
+}
+
+body{
+  background: var(--bg);
+  color: var(--text);
+}
+
+.main-content{
+  background: var(--bg);
+  min-height:100vh;
+}
+
+.card-dark{
+  background:linear-gradient(135deg,#1E293B,#0F172A);
+  color:white;
+}
+
+.table-dark-custom{
+  background:var(--surface);
+  color:white;
+}
+
+.table-dark-custom thead{
+  background:#111827;
+}
+
+.table-dark-custom td,
+.table-dark-custom th{
+  border-color:#374151;
+}
+
+.section-title{
+  color:white;
+  font-weight:700;
+}
+
+.active-menu{
+    background:linear-gradient(135deg,#6366F1,#4F46E5);
+    color:white !important;
+    box-shadow:0 8px 20px rgba(99,102,241,.35);
+}
+
+.active-menu svg{
+    color:white;
+}
+
+a{
+    transition:.3s;
+}
+
+a:hover{
+    background:#1E293B;
+    color:white !important;
+}
