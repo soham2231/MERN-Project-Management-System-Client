@@ -3,7 +3,7 @@ import { FaEdit, FaTrash, FaEye } from "react-icons/fa";
 import DataTable from "../comman/DataTable";
 import StatusBadge from "../comman/StatusBadge";
 
-const ProjectTable = ({ projects }) => {
+const ProjectTable = ({ projects, onView, onEdit, onDelete }) => {
   return (
     <DataTable headers={["Project", "Status", "Duration", "Actions"]}>
       {projects.map((project) => (
@@ -31,9 +31,8 @@ const ProjectTable = ({ projects }) => {
           <td>
             <div className="table-actions">
               <button
-                type="button"
                 className="table-icon-btn view-btn"
-                title="View"
+                onClick={() => onView(project)}
               >
                 <FaEye />
               </button>
@@ -42,6 +41,7 @@ const ProjectTable = ({ projects }) => {
                 type="button"
                 className="table-icon-btn edit-btn"
                 title="Edit"
+                onClick={() => onEdit(project)}
               >
                 <FaEdit />
               </button>
@@ -50,6 +50,7 @@ const ProjectTable = ({ projects }) => {
                 type="button"
                 className="table-icon-btn delete-btn"
                 title="Delete"
+                onClick={() => onDelete(project)}
               >
                 <FaTrash />
               </button>

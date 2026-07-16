@@ -302,3 +302,88 @@
         transform:scale(1);
     }
 }
+
+/* ================= BUTTONS ================= */
+
+.secondary-btn{
+
+    padding:10px 22px;
+
+    border-radius:12px;
+
+    border:1px solid #475569;
+
+    background:#273549;
+
+    color:white;
+
+    transition:.25s;
+}
+
+.secondary-btn:hover{
+
+    background:#334155;
+}
+
+.danger-btn{
+
+    padding:10px 22px;
+
+    border:none;
+
+    border-radius:12px;
+
+    color:white;
+
+    background:linear-gradient(135deg,#EF4444,#DC2626);
+
+    transition:.25s;
+}
+
+.danger-btn:hover{
+
+    transform:translateY(-2px);
+
+    box-shadow:0 8px 20px rgba(239,68,68,.35);
+}
+
+
+/* tsble tile */
+
+    .table-title{
+
+    padding:18px 24px;
+
+    font-size:18px;
+
+    font-weight:600;
+
+    color:white;
+
+    border-bottom:1px solid #334155;
+
+    background:#1E293B;
+}
+
+/* ================= PROJECT VIEW ================= */
+
+.project-view{
+    display:flex;
+    flex-direction:column;
+    gap:20px;
+}
+
+.view-item label{
+    display:block;
+    color:#94A3B8;
+    font-size:14px;
+    margin-bottom:6px;
+}
+
+.view-item p{
+    margin:0;
+    color:#F8FAFC;
+    font-size:16px;
+    font-weight:500;
+    word-break:break-word;
+}

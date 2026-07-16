@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { FaSpinner } from "react-icons/fa";
 
 const ProjectForm = ({ initialData = {}, onSubmit, loading }) => {
   const [formData, setFormData] = useState({
@@ -103,7 +104,12 @@ const ProjectForm = ({ initialData = {}, onSubmit, loading }) => {
         </select>
       </div>
 
-      <button className="primary-btn w-100" disabled={loading}>
+      <button
+        className="primary-btn w-100 d-flex justify-content-center align-items-center gap-2"
+        disabled={loading}
+      >
+        {loading && <FaSpinner className="spin-icon" />}
+
         {loading ? "Saving..." : "Save Project"}
       </button>
     </form>

@@ -19,8 +19,3 @@ export const deleteProjectAPI = async (id) => {
   const response = await API.delete(`/projects/delete/${id}`);
   return response.data;
 };
-
-// export const createProjectAPI = async (data) => {
-//   const response = await API.post("/projects/create", data);
-//   return response.data;
-// };

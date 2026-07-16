@@ -1,7 +1,12 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { getProjects, createProject } from "../../redux/slices/projectSlice";
+import {
+  getProjects,
+  createProject,
+  updateProject,
+  deleteProject,
+} from "../../redux/slices/projectSlice";
 
 import PageHeader from "../../components/comman/PageHeader";
 import Loader from "../../components/comman/Loader";
@@ -15,15 +20,29 @@ import SelectInput from "../../components/comman/SelectInput";
 
 import CustomModal from "../../components/comman/CustomModal";
 import ProjectForm from "../../components/project/ProjectForm";
+import toast from "react-hot-toast";
+import StatusBadge from "../../components/comman/StatusBadge";
 
 const Projects = () => {
   const [search, setSearch] = useState("");
 
   const [status, setStatus] = useState("");
-
+  // create btn
   const [showCreate, setShowCreate] = useState(false);
 
+  const [selectedProject, setSelectedProject] = useState(null);
+
   const { projects, loading } = useSelector((state) => state.project);
+  // del btn
+  const [showDelete, setShowDelete] = useState(false);
+
+  const [deleteProjectId, setDeleteProjectId] = useState(null);
+  // view btn
+  const [showView, setShowView] = useState(false);
+
+  const [viewProject, setViewProject] = useState(null);
+
+  // =======================================================
 
   const filteredProjects = projects.filter((project) => {
     const matchesSearch = project.projectName
@@ -34,6 +53,26 @@ const Projects = () => {
 
     return matchesSearch && matchesStatus;
   });
+
+  // =========================================================
+
+  const handleDelete = async () => {
+    const result = await dispatch(deleteProject(deleteProjectId));
+
+    if (!result.error) {
+      toast.success(result.payload.message);
+
+      setShowDelete(false);
+
+      setDeleteProjectId(null);
+
+      dispatch(getProjects());
+    } else {
+      toast.error(result.payload);
+    }
+  };
+
+  // =============================================================
 
   const dispatch = useDispatch();
 
@@ -78,29 +117,163 @@ const Projects = () => {
           {filteredProjects.length === 0 ? (
             <EmptyState message="No Projects Found." />
           ) : (
-            <ProjectTable projects={filteredProjects} />
+            <ProjectTable
+              projects={filteredProjects}
+              onView={(project) => {
+                setViewProject(project);
+                setShowView(true);
+              }}
+              onEdit={(project) => {
+                setSelectedProject(project);
+                setShowCreate(true);
+              }}
+              onDelete={(project) => {
+                setDeleteProjectId(project._id);
+                setShowDelete(true);
+              }}
+            />
           )}
         </>
       )}
 
-      {/* =================modal================== */}
+      {/* =================create modal================== */}
       <CustomModal
         show={showCreate}
-        onClose={() => setShowCreate(false)}
-        title="Create Project"
+        onClose={() => {
+          setShowCreate(false);
+          setSelectedProject(null);
+        }}
+        title={selectedProject ? "Edit Project" : "Create Project"}
       >
         <ProjectForm
           loading={loading}
+          initialData={selectedProject || {}}
           onSubmit={async (data) => {
-            const result = await dispatch(createProject(data));
+            let result;
+
+            if (selectedProject) {
+              result = await dispatch(
+                updateProject({
+                  id: selectedProject._id,
+                  data,
+                }),
+              );
+            } else {
+              result = await dispatch(createProject(data));
+            }
 
             if (!result.error) {
+              toast.success(result.payload.message);
+
               setShowCreate(false);
+              setSelectedProject(null);
 
               dispatch(getProjects());
+            } else {
+              toast.error(result.payload);
             }
           }}
         />
+      </CustomModal>
+
+      {/* =================delete modal================== */}
+
+      <CustomModal
+        show={showDelete}
+        onClose={() => {
+          setShowDelete(false);
+          setDeleteProjectId(null);
+        }}
+        title="Delete Project"
+        width="450px"
+      >
+        <div className="text-center">
+          <div
+            style={{
+              width: "70px",
+              height: "70px",
+              margin: "0 auto",
+              borderRadius: "50%",
+              background: "#EF4444",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              color: "#fff",
+              fontSize: "30px",
+            }}
+          >
+            🗑
+          </div>
+
+          <h4 className="mt-4">Delete Project</h4>
+
+          <p className="text-secondary mb-4">This action cannot be undone.</p>
+
+          <div className="d-flex justify-content-center gap-3">
+            <button
+              className="secondary-btn"
+              onClick={() => {
+                setShowDelete(false);
+                setDeleteProjectId(null);
+              }}
+            >
+              Cancel
+            </button>
+
+            <button className="danger-btn" onClick={handleDelete}>
+              Delete Project
+            </button>
+          </div>
+        </div>
+      </CustomModal>
+
+      {/* =================delete modal================== */}
+
+      <CustomModal
+        show={showView}
+        onClose={() => {
+          setShowView(false);
+          setViewProject(null);
+        }}
+        title="Project Details"
+      >
+        {viewProject && (
+          <div className="project-view">
+            <div className="view-item">
+              <label>Project Name</label>
+              <p>{viewProject.projectName}</p>
+            </div>
+
+            <div className="view-item">
+              <label>Description</label>
+              <p>{viewProject.description}</p>
+            </div>
+
+            <div className="row ">
+              <div className="col-md-6 view-item">
+                <label className="me-2">Status</label>
+                <StatusBadge status={viewProject.status} />
+              </div>
+
+              <div className="col-md-6 view-item">
+                <label>Created By</label>
+                <p>{viewProject.createdBy?.fullName || "N/A"}</p>
+              </div>
+            </div>
+
+            <div className="row">
+              <div className="col-md-6 view-item">
+                <label>Start Date</label>
+                <p>{new Date(viewProject.startDate).toLocaleDateString()}</p>
+              </div>
+
+              <div className="col-md-6 view-item">
+                <label>End Date</label>
+                <p>{new Date(viewProject.endDate).toLocaleDateString()}</p>
+              </div>
+            </div>
+          </div>
+        )}
       </CustomModal>
     </>
   );

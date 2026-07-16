@@ -1,8 +1,10 @@
-const DataTable = ({ headers, children }) => {
+const DataTable = ({ headers, children, title }) => {
   return (
-    <div className="table-card">
-      <div className="table-responsive">
-        <table className="table table-dark custom-table align-middle mb-0">
+    <div className="table-card mb-2">
+      {title && <div className="table-title">{title}</div>}
+
+      <div className="table-responsive ">
+        <table className="table custom-table align-middle mb-0">
           <thead>
             <tr>
               {headers.map((header) => (

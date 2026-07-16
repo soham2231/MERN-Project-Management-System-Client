@@ -1,64 +1,33 @@
+import DataTable from "../comman/DataTable";
 import EmptyState from "../comman/EmptyState";
 import StatusBadge from "../comman/StatusBadge";
 import PriorityBadge from "../comman/PriorityBadge";
 
 const RecentTasks = ({ tasks }) => {
+  if (tasks.length === 0) return <EmptyState message="No Recent Tasks" />;
+
   return (
-    <div className="card card-dark border-0 shadow mt-4">
+    <DataTable title="Recent Tasks" headers={["Task", "Status", "Priority"]}>
+      {tasks.map((task) => (
+        <tr key={task._id}>
+          <td>
+            <div className="fw-semibold">{task.title}</div>
 
-      <div className="card-header fw-bold fs-5">
-        Recent Tasks
-      </div>
+            <small className="text-secondary">
+              {task.description?.slice(0, 40)}...
+            </small>
+          </td>
 
-      <div className="table-responsive">
+          <td>
+            <StatusBadge status={task.status} />
+          </td>
 
-        {tasks.length === 0 ? (
-          <EmptyState message="No Recent Tasks" />
-        ) : (
-          <table className="table table-dark table-hover align-middle mb-0">
-
-            <thead>
-
-              <tr>
-
-                <th>Title</th>
-
-                <th>Status</th>
-
-                <th>Priority</th>
-
-              </tr>
-
-            </thead>
-
-            <tbody>
-
-              {tasks.map((task) => (
-
-                <tr key={task._id}>
-
-                  <td>{task.title}</td>
-
-                  <td>
-                    <StatusBadge status={task.status} />
-                  </td>
-
-                  <td>
-                    <PriorityBadge priority={task.priority} />
-                  </td>
-
-                </tr>
-
-              ))}
-
-            </tbody>
-
-          </table>
-        )}
-
-      </div>
-
-    </div>
+          <td>
+            <PriorityBadge priority={task.priority} />
+          </td>
+        </tr>
+      ))}
+    </DataTable>
   );
 };
 

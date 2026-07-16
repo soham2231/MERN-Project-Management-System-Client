@@ -2,8 +2,11 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import {
   getProjectsAPI,
   createProjectAPI,
+  updateProjectAPI,
+  deleteProjectAPI,
 } from "../../services/projectService";
 
+// =====================================================
 export const getProjects = createAsyncThunk(
   "project/getProjects",
   async (_, { rejectWithValue }) => {
@@ -16,6 +19,7 @@ export const getProjects = createAsyncThunk(
     }
   },
 );
+// =====================================================
 
 export const createProject = createAsyncThunk(
   "project/createProject",
@@ -29,6 +33,37 @@ export const createProject = createAsyncThunk(
     }
   },
 );
+// =====================================================
+
+export const updateProject = createAsyncThunk(
+  "project/updateProject",
+  async ({ id, data }, { rejectWithValue }) => {
+    try {
+      return await updateProjectAPI(id, data);
+    } catch (error) {
+      return rejectWithValue(
+        error.response?.data?.message || "Failed to update project.",
+      );
+    }
+  },
+);
+
+// =====================================================
+
+export const deleteProject = createAsyncThunk(
+  "project/deleteProject",
+  async (id, { rejectWithValue }) => {
+    try {
+      return await deleteProjectAPI(id);
+    } catch (error) {
+      return rejectWithValue(
+        error.response?.data?.message || "Failed to delete project.",
+      );
+    }
+  },
+);
+
+// =====================================================
 
 const initialState = {
   projects: [],
@@ -44,7 +79,7 @@ const projectSlice = createSlice({
 
   extraReducers: (builder) => {
     builder
-      // ================= GET PROJECTS =================
+      // ================= get pro =================
 
       .addCase(getProjects.pending, (state) => {
         state.loading = true;
@@ -60,7 +95,7 @@ const projectSlice = createSlice({
         state.error = action.payload;
       })
 
-      // ================= CREATE PROJECT =================
+      // ================= create pro =================
 
       .addCase(createProject.pending, (state) => {
         state.loading = true;
@@ -72,6 +107,44 @@ const projectSlice = createSlice({
       })
 
       .addCase(createProject.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+
+      // ================= upd pro =================
+
+      .addCase(updateProject.pending, (state) => {
+        state.loading = true;
+      })
+
+      .addCase(updateProject.fulfilled, (state, action) => {
+        state.loading = false;
+
+        const index = state.projects.findIndex(
+          (project) => project._id === action.payload.data._id,
+        );
+
+        if (index !== -1) {
+          state.projects[index] = action.payload.data;
+        }
+      })
+
+      .addCase(updateProject.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+
+      // ================= upd pro =================
+
+      .addCase(deleteProject.pending, (state) => {
+        state.loading = true;
+      })
+
+      .addCase(deleteProject.fulfilled, (state) => {
+        state.loading = false;
+      })
+
+      .addCase(deleteProject.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       });
