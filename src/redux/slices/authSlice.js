@@ -4,6 +4,7 @@ import {
   registerUserAPI,
   getUserInfoAPI,
 } from "../../services/authService";
+import { updateProfile } from "./userSlice";
 
 // ================= REGISTER =================
 
@@ -162,6 +163,12 @@ const authSlice = createSlice({
         state.isAuthenticated = false;
 
         localStorage.removeItem("token");
+      })
+
+      // ================= upd profile =================
+
+      .addCase(updateProfile.fulfilled, (state, action) => {
+        state.user = action.payload.data;
       });
   },
 });

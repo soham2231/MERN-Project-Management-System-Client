@@ -10,6 +10,7 @@ import Dashboard from "../pages/Dashboard/Dashboard";
 import Projects from "../pages/Project/Projects";
 import Tasks from "../pages/Task/Tasks";
 import Profile from "../pages/User/Profile";
+import Users from "../pages/user/Users";
 
 const AppRoutes = () => {
   return (
@@ -34,7 +35,7 @@ const AppRoutes = () => {
 
           <Route path="/assignments" element={<h2>Assignments</h2>} />
 
-          <Route path="/users" element={<h2>Users</h2>} />
+          <Route path="/users" element={<Users />} />
 
           <Route path="/profile" element={<Profile />} />
         </Route>

@@ -21,6 +21,9 @@ import { getMembers } from "../../redux/slices/userSlice";
 import { getProjects } from "../../redux/slices/projectSlice";
 
 const Tasks = () => {
+  // =====================
+  const { user } = useSelector((state) => state.auth);
+
   const dispatch = useDispatch();
 
   const { tasks, loading } = useSelector((state) => state.task);
@@ -39,10 +42,15 @@ const Tasks = () => {
   const [showDelete, setShowDelete] = useState(false);
 
   useEffect(() => {
+    if (!user) return;
+
     dispatch(getTasks());
-    dispatch(getProjects());
-    dispatch(getMembers());
-  }, [dispatch]);
+
+    if (user.role !== "Member") {
+      dispatch(getProjects());
+      dispatch(getMembers());
+    }
+  }, [dispatch, user]);
 
   const filteredTasks = tasks.filter((task) => {
     const matchesSearch = task.title
@@ -62,9 +70,11 @@ const Tasks = () => {
         search={search}
         setSearch={setSearch}
         button={
-          <button className="primary-btn" onClick={() => setShowCreate(true)}>
-            + Create Task
-          </button>
+          user?.role !== "Member" && (
+            <button className="primary-btn" onClick={() => setShowCreate(true)}>
+              + Create Task
+            </button>
+          )
         }
       >
         <SelectInput

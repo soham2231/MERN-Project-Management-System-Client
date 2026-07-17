@@ -15,6 +15,7 @@ function App() {
   }, [dispatch, token, user]);
 
   return <AppRoutes />;
+  
 }
 
 export default App;
