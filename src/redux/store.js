@@ -5,6 +5,7 @@ import dashboardReducer from "./slices/dashboardSlice";
 import projectReducer from "./slices/projectSlice";
 import taskReducer from "./slices/taskSlice";
 import userReducer from "./slices/userSlice";
+import taskAssignReducer from "./slices/taskAssignSlice";
 
 export const store = configureStore({
   reducer: {
@@ -13,5 +14,6 @@ export const store = configureStore({
     project: projectReducer,
     task: taskReducer,
     user: userReducer,
+    assignment: taskAssignReducer,
   },
 });

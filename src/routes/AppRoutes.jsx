@@ -11,6 +11,7 @@ import Projects from "../pages/Project/Projects";
 import Tasks from "../pages/Task/Tasks";
 import Profile from "../pages/User/Profile";
 import Users from "../pages/user/Users";
+import Assignments from "../pages/assignments/Assignments";
 
 const AppRoutes = () => {
   return (
@@ -28,15 +29,11 @@ const AppRoutes = () => {
       <Route element={<ProtectedRoute />}>
         <Route element={<Layout />}>
           <Route path="/dashboard" element={<Dashboard />} />
-
           <Route path="/projects" element={<Projects />} />
-
           <Route path="/tasks" element={<Tasks />} />
-
-          <Route path="/assignments" element={<h2>Assignments</h2>} />
-
+          import Assignments from "../pages/Assignments/Assignments";
+          <Route path="/assignments" element={<Assignments />} />
           <Route path="/users" element={<Users />} />
-
           <Route path="/profile" element={<Profile />} />
         </Route>
       </Route>
