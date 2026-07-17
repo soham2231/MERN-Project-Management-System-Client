@@ -33,6 +33,7 @@ const Projects = () => {
   const [selectedProject, setSelectedProject] = useState(null);
 
   const { projects, loading } = useSelector((state) => state.project);
+  const { user } = useSelector((state) => state.auth);
   // del btn
   const [showDelete, setShowDelete] = useState(false);
 
@@ -86,20 +87,20 @@ const Projects = () => {
 
       {loading ? (
         <Loader />
-      ) : projects.length === 0 ? (
-        <EmptyState message="No Projects Found." />
       ) : (
         <>
           <TableToolbar
             search={search}
             setSearch={setSearch}
             button={
-              <button
-                onClick={() => setShowCreate(true)}
-                className="primary-btn"
-              >
-                + Create Project
-              </button>
+              (user?.role === "Admin" || user?.role === "HOD") && (
+                <button
+                  onClick={() => setShowCreate(true)}
+                  className="primary-btn"
+                >
+                  + Create Project
+                </button>
+              )
             }
           >
             <SelectInput

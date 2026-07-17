@@ -3,11 +3,20 @@ import EmptyState from "../comman/EmptyState";
 import StatusBadge from "../comman/StatusBadge";
 import PriorityBadge from "../comman/PriorityBadge";
 
-const RecentTasks = ({ tasks }) => {
+const RecentTasks = ({ tasks, role }) => {
   if (tasks.length === 0) return <EmptyState message="No Recent Tasks" />;
 
   return (
-    <DataTable title="Recent Tasks" headers={["Task", "Status", "Priority"]}>
+    <DataTable
+      title={
+        role === "Admin"
+          ? "Recent Tasks"
+          : role === "HOD"
+            ? "My Recent Tasks"
+            : "My Assigned Tasks"
+      }
+      headers={["Task", "Status", "Priority"]}
+    >
       {tasks.map((task) => (
         <tr key={task._id}>
           <td>

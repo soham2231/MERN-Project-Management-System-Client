@@ -27,9 +27,14 @@ const Dashboard = () => {
 
       <StatsSection dashboard={dashboard} />
 
-      <RecentProjects projects={dashboard.recentProjects} />
+      {dashboard.userRole !== "Member" && (
+        <RecentProjects
+          projects={dashboard.recentProjects}
+          role={dashboard.userRole}
+        />
+      )}
 
-      <RecentTasks tasks={dashboard.recentTasks} />
+      <RecentTasks tasks={dashboard.recentTasks} role={dashboard.userRole} />
     </div>
   );
 };

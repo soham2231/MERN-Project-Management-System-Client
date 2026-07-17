@@ -2,12 +2,12 @@ import DataTable from "../comman/DataTable";
 import EmptyState from "../comman/EmptyState";
 import StatusBadge from "../comman/StatusBadge";
 
-const RecentProjects = ({ projects }) => {
+const RecentProjects = ({ projects, role }) => {
   if (projects.length === 0) return <EmptyState message="No Recent Projects" />;
 
   return (
     <DataTable
-      title="Recent Projects"
+      title={role === "Admin" ? "Recent Projects" : "My Recent Projects"}
       headers={["Project", "Status", "Start Date"]}
     >
       {projects.map((project) => (
